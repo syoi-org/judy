@@ -42,6 +42,7 @@
               just
               protobuf
               protoc-gen-go
+              protoc-gen-go-grpc
             ]
             ++ [ gomod2nix.packages.${system}.default ];
         };

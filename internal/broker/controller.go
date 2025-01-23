@@ -6,7 +6,6 @@ import (
 	"github.com/syoi-org/judy/internal/broker/pb"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
-	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -30,7 +29,7 @@ func NewController(p ControllerParams) pb.BrokerServer {
 	}
 }
 
-func (c *controller) Consume(consumeRequest *pb.ConsumeRequest, consumeResponse grpc.ServerStreamingServer[pb.Delivery]) error {
+func (c *controller) Consume(consumeRequest *pb.ConsumeRequest, consumeResponse pb.Broker_ConsumeServer) error {
 	deliveries, err := c.Service.Consume(consumeRequest.Queue, consumeRequest.Consumer, consumeRequest.AutoAck)
 	if err != nil {
 		err = status.Errorf(codes.Internal, "failed to consume: %v", err)
